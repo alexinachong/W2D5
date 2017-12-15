@@ -45,11 +45,15 @@ class IntSet
   end
 
   def insert(num)
-    @store[num % num_buckets] << num
+    unless include?(num)
+      @store[num % num_buckets] << num
+    end
   end
 
   def remove(num)
-    @store[num % num_buckets].delete(num)
+    if include?(num)
+      @store[num % num_buckets].delete(num)
+    end 
   end
 
   def include?(num)
@@ -111,6 +115,5 @@ class ResizingIntSet
     @store = Array.new(2 * num_buckets) { Array.new }
     @count = 0
     elements.each { |el| insert(el) }
-
   end
 end
